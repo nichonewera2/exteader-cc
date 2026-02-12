@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXTEADER CC</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#0f0f1b,#1c1c3c,#0d0d18);
+    color:white;
+    overflow-x:hidden;
+}
+
+/* HEADER */
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:70px;
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.05);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    z-index:1000;
+}
+
+.menu-btn{
+    font-size:26px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.menu-btn:hover{
+    transform:scale(1.1);
+}
+
+.profile-top{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:url('https://files.catbox.moe/6vompt.png') center/cover no-repeat;
+    border:2px solid rgba(255,255,255,0.3);
+    box-shadow:0 0 15px rgba(0,102,255,0.4);
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    width:260px;
+    height:100%;
+    background:#12122a;
+    padding-top:100px;
+    transition:0.4s ease;
+    z-index:999;
+}
+
+.sidebar.active{
+    left:0;
+}
+
+.sidebar a{
+    display:block;
+    padding:16px 35px;
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+    font-size:14px;
+}
+.sidebar a:hover{
+    background:#222255;
+    padding-left:45px;
+}
+
+/* SECTION */
+.section{
+    display:none;
+    padding-top:110px;
+    padding-left:40px;
+    padding-right:40px;
+    animation:fadeUp 0.6s ease;
+}
+
+.section.active{
+    display:block;
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* ABOUT */
+.about-bg{
+    background:linear-gradient(120deg,#1a1a3c,#101026);
+    padding:45px;
+    border-radius:25px;
+    box-shadow:0 0 40px rgba(0,0,255,0.1);
+}
+
+/* MEMBERS */
+.members-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+    gap:25px;
+    margin-top:30px;
+}
+
+.member-card{
+    background:rgba(255,255,255,0.05);
+    border-radius:22px;
+    padding:30px 20px;
+    text-align:center;
+    transition:0.4s ease;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,0.08);
+    position:relative;
+    overflow:hidden;
+}
+
+.member-card::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle,rgba(0,102,255,0.15),transparent 60%);
+    transform:rotate(25deg);
+    opacity:0;
+    transition:0.5s;
+}
+
+.member-card:hover::before{
+    opacity:1;
+}
+
+.member-card:hover{
+    transform:translateY(-10px);
+}
+
+.avatar{
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    background:#555;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.member-name{
+    font-weight:600;
+    font-size:15px;
+}
+
+.member-role{
+    font-size:12px;
+    opacity:0.6;
+}
+
+/* STAT */
+.stat-box{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    margin:20px 0;
+}
+
+/* CONTACT */
+.contact-card{
+    background:linear-gradient(120deg,#1c1c3c,#111128);
+    padding:45px;
+    border-radius:25px;
+    box-shadow:0 0 40px rgba(0,255,100,0.1);
+}
+
+.whatsapp-btn{
+    margin-top:25px;
+    display:inline-block;
+    padding:15px 35px;
+    border-radius:30px;
+    background:linear-gradient(45deg,#00c853,#00e676);
+    color:white;
+    font-weight:600;
+    text-decoration:none;
+    transition:0.3s;
+    box-shadow:0 0 20px rgba(0,255,100,0.3);
+}
+
+.whatsapp-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 30px rgba(0,255,100,0.6);
+}
+
+/* POPUP */
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.65);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.4s;
+}
+
+.popup.active{
+    opacity:1;
+    pointer-events:all;
+}
+
+.popup-content{
+    background:#151533;
+    padding:45px;
+    border-radius:25px;
+    width:320px;
+    text-align:center;
+    transform:scale(0.8);
+    transition:0.3s;
+}
+
+.popup.active .popup-content{
+    transform:scale(1);
+}
+
+.stat{
+    margin-top:12px;
+    font-size:14px;
+    opacity:0.85;
+}
+
+.skill-text{
+    margin-top:15px;
+    font-size:15px;
+    font-weight:600;
+    color:#4da3ff;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<div style="font-weight:600">EXTEADER CC</div>
+<div class="profile-top"></div>
+</header>
+
+<div class="sidebar" id="sidebar">
+<a href="#" onclick="showSection('about')">About</a>
+<a href="#" onclick="showSection('members')">Member</a>
+<a href="#" onclick="showSection('statistik')">Statistik</a>
+<a href="#" onclick="showSection('contact')">Contact</a>
+</div>
+
+<div id="about" class="section active">
+<div class="about-bg">
+<h2 style="font-size:19px;margin-bottom:12px;">Welcome To EXTEADER</h2>
+<p style="font-size:14px;opacity:0.75;">
+Circle Free Fire elite dengan squad solid dan siap dominate.
+</p>
+</div>
+</div>
+
+<div id="members" class="section">
+<h2 style="font-size:18px;">CC Members</h2>
+<div class="members-grid" id="membersList"></div>
+</div>
+
+<div id="statistik" class="section">
+<h2 style="font-size:18px;">Statistik EXTEADER</h2>
+<div class="stat-box">Total Members: 23</div>
+<div class="stat-box">Total Win: 128+</div>
+</div>
+
+<div id="contact" class="section">
+<div class="contact-card">
+<h2 style="font-size:18px;margin-bottom:15px;">Contact EXTEADER</h2>
+<p style="font-size:14px;opacity:0.75;line-height:1.6;">
+Jika ingin masuk group WhatsApp resmi EXTEADER CC dan menjadi bagian dari circle ini,
+silakan klik tombol di bawah. Pastikan kamu aktif dan solid.
+</p>
+
+<a class="whatsapp-btn" href="https://chat.whatsapp.com/ISI_LINK_GRUP_KAMU" target="_blank">
+Grup WhatsApp
+</a>
+</div>
+</div>
+
+<div class="popup" id="popup">
+<div class="popup-content" id="popupContent"></div>
+</div>
+
+<script>
+const members=[
+["ALL","Founder"],["SENJA","Own"],["SON","Petinggi"],["PATUR","Petinggi"],
+["BARA","Member"],["TR4LL","Editor"],["ALVIN","Member"],["ARSYAD","Member"],
+["YOEL","Member"],["MAUL","Member"],["FILYAL","Member"],["YUDIS¹","Member"],
+["YUDIS²","Member"],["RULZ","Member"],["LEO","Member"],["FYRAN","Member"],
+["CIO","Member"],["HEN","Member"],["FLX","Member"],["ZAM","Member"],
+["REY","Member"],["FIQYI","Member"],["RENO","Member"]
+];
+
+const skills=["Jago","Suka ngurung","Rusher cepat","Sniper tajam","Support solid","Clutch master"];
+
+const container=document.getElementById("membersList");
+
+members.forEach(m=>{
+    const card=document.createElement("div");
+    card.className="member-card";
+    card.innerHTML=`
+        <div class="avatar">👤</div>
+        <div class="member-name">${m[0]}</div>
+        <div class="member-role">${m[1]}</div>
+    `;
+    card.onclick=()=>{
+        const randomSkill=skills[Math.floor(Math.random()*skills.length)];
+        document.getElementById("popupContent").innerHTML=`
+            <div class="avatar" style="margin:auto;">👤</div>
+            <h3 style="margin-top:10px;">${m[0]}</h3>
+            <div class="stat">Role: ${m[1]}</div>
+            <div class="stat">Boy</div>
+            <div class="skill-text">${randomSkill}</div>
+        `;
+        document.getElementById("popup").classList.add("active");
+    };
+    container.appendChild(card);
+});
+
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("active");
+}
+
+function showSection(id){
+    document.querySelectorAll(".section").forEach(sec=>sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.getElementById("sidebar").classList.remove("active");
+}
+
+document.getElementById("popup").onclick=function(){
+    this.classList.remove("active");
+};
+</script>
+
+</body>
+</html>
